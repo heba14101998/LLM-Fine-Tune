@@ -1,0 +1,649 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "fd2d8f1b",
+   "metadata": {
+    "_cell_guid": "8d013096-9eca-497c-a587-b2db60ee1065",
+    "_uuid": "600e8e32-4e9b-4fc0-84b0-bbf3f3875e8a",
+    "collapsed": false,
+    "execution": {
+     "iopub.execute_input": "2025-05-04T19:48:45.518088Z",
+     "iopub.status.busy": "2025-05-04T19:48:45.517618Z",
+     "iopub.status.idle": "2025-05-04T19:48:45.534113Z",
+     "shell.execute_reply": "2025-05-04T19:48:45.533142Z"
+    },
+    "jupyter": {
+     "outputs_hidden": false
+    },
+    "papermill": {
+     "duration": 0.023623,
+     "end_time": "2025-05-04T19:48:45.536428",
+     "exception": false,
+     "start_time": "2025-05-04T19:48:45.512805",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "/kaggle/src/script.ipynb\n",
+      "/kaggle/lib/kaggle/gcp.py\n",
+      "/kaggle/input/usa-real-estate-dataset/realtor-data.zip.csv\n",
+      "/kaggle/huggingface/hf_scan.py\n",
+      "/kaggle/nbdev/export.sh\n",
+      "/kaggle/nbdev/settings.ini\n",
+      "/kaggle/working/utils.py\n",
+      "/kaggle/working/__notebook__.ipynb\n"
+     ]
+    }
+   ],
+   "source": [
+    "import os\n",
+    "for dirname, _, filenames in os.walk('/kaggle/'):  \n",
+    "    for filename in filenames:  \n",
+    "        print(os.path.join(dirname, filename))\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "3fd2c92e",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-05-04T19:48:45.544545Z",
+     "iopub.status.busy": "2025-05-04T19:48:45.543583Z",
+     "iopub.status.idle": "2025-05-04T19:49:11.853913Z",
+     "shell.execute_reply": "2025-05-04T19:49:11.852822Z"
+    },
+    "papermill": {
+     "duration": 26.316062,
+     "end_time": "2025-05-04T19:49:11.855708",
+     "exception": false,
+     "start_time": "2025-05-04T19:48:45.539646",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting pipreqsnb\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  Downloading pipreqsnb-0.2.4.tar.gz (3.7 kB)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  Preparing metadata (setup.py) ... \u001b[?25l\u001b[?25hdone\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting pipreqs (from pipreqsnb)\r\n",
+      "  Downloading pipreqs-0.5.0-py3-none-any.whl.metadata (7.9 kB)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting docopt==0.6.2 (from pipreqs->pipreqsnb)\r\n",
+      "  Downloading docopt-0.6.2.tar.gz (25 kB)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  Preparing metadata (setup.py) ... \u001b[?25l\u001b[?25hdone\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting ipython==8.12.3 (from pipreqs->pipreqsnb)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  Downloading ipython-8.12.3-py3-none-any.whl.metadata (5.7 kB)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting nbconvert<8.0.0,>=7.11.0 (from pipreqs->pipreqsnb)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  Downloading nbconvert-7.16.6-py3-none-any.whl.metadata (8.5 kB)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting yarg==0.1.9 (from pipreqs->pipreqsnb)\r\n",
+      "  Downloading yarg-0.1.9-py2.py3-none-any.whl.metadata (4.6 kB)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: backcall in /usr/local/lib/python3.11/dist-packages (from ipython==8.12.3->pipreqs->pipreqsnb) (0.2.0)\r\n",
+      "Requirement already satisfied: decorator in /usr/local/lib/python3.11/dist-packages (from ipython==8.12.3->pipreqs->pipreqsnb) (4.4.2)\r\n",
+      "Requirement already satisfied: jedi>=0.16 in /usr/local/lib/python3.11/dist-packages (from ipython==8.12.3->pipreqs->pipreqsnb) (0.19.2)\r\n",
+      "Requirement already satisfied: matplotlib-inline in /usr/local/lib/python3.11/dist-packages (from ipython==8.12.3->pipreqs->pipreqsnb) (0.1.7)\r\n",
+      "Requirement already satisfied: pickleshare in /usr/local/lib/python3.11/dist-packages (from ipython==8.12.3->pipreqs->pipreqsnb) (0.7.5)\r\n",
+      "Requirement already satisfied: prompt-toolkit!=3.0.37,<3.1.0,>=3.0.30 in /usr/local/lib/python3.11/dist-packages (from ipython==8.12.3->pipreqs->pipreqsnb) (3.0.50)\r\n",
+      "Requirement already satisfied: pygments>=2.4.0 in /usr/local/lib/python3.11/dist-packages (from ipython==8.12.3->pipreqs->pipreqsnb) (2.19.1)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting stack-data (from ipython==8.12.3->pipreqs->pipreqsnb)\r\n",
+      "  Downloading stack_data-0.6.3-py3-none-any.whl.metadata (18 kB)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: traitlets>=5 in /usr/local/lib/python3.11/dist-packages (from ipython==8.12.3->pipreqs->pipreqsnb) (5.7.1)\r\n",
+      "Requirement already satisfied: pexpect>4.3 in /usr/local/lib/python3.11/dist-packages (from ipython==8.12.3->pipreqs->pipreqsnb) (4.9.0)\r\n",
+      "Requirement already satisfied: requests in /usr/local/lib/python3.11/dist-packages (from yarg==0.1.9->pipreqs->pipreqsnb) (2.32.3)\r\n",
+      "Requirement already satisfied: beautifulsoup4 in /usr/local/lib/python3.11/dist-packages (from nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (4.13.3)\r\n",
+      "Requirement already satisfied: bleach!=5.0.0 in /usr/local/lib/python3.11/dist-packages (from bleach[css]!=5.0.0->nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (6.2.0)\r\n",
+      "Requirement already satisfied: defusedxml in /usr/local/lib/python3.11/dist-packages (from nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (0.7.1)\r\n",
+      "Requirement already satisfied: jinja2>=3.0 in /usr/local/lib/python3.11/dist-packages (from nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (3.1.6)\r\n",
+      "Requirement already satisfied: jupyter-core>=4.7 in /usr/local/lib/python3.11/dist-packages (from nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (5.7.2)\r\n",
+      "Requirement already satisfied: jupyterlab-pygments in /usr/local/lib/python3.11/dist-packages (from nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (0.3.0)\r\n",
+      "Requirement already satisfied: markupsafe>=2.0 in /usr/local/lib/python3.11/dist-packages (from nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (3.0.2)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting mistune<4,>=2.0.3 (from nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  Downloading mistune-3.1.3-py3-none-any.whl.metadata (1.8 kB)\r\n",
+      "Requirement already satisfied: nbclient>=0.5.0 in /usr/local/lib/python3.11/dist-packages (from nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (0.5.13)\r\n",
+      "Requirement already satisfied: nbformat>=5.7 in /usr/local/lib/python3.11/dist-packages (from nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (5.10.4)\r\n",
+      "Requirement already satisfied: packaging in /usr/local/lib/python3.11/dist-packages (from nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (24.2)\r\n",
+      "Requirement already satisfied: pandocfilters>=1.4.1 in /usr/local/lib/python3.11/dist-packages (from nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (1.5.1)\r\n",
+      "Requirement already satisfied: webencodings in /usr/local/lib/python3.11/dist-packages (from bleach!=5.0.0->bleach[css]!=5.0.0->nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (0.5.1)\r\n",
+      "Requirement already satisfied: tinycss2<1.5,>=1.1.0 in /usr/local/lib/python3.11/dist-packages (from bleach[css]!=5.0.0->nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (1.4.0)\r\n",
+      "Requirement already satisfied: parso<0.9.0,>=0.8.4 in /usr/local/lib/python3.11/dist-packages (from jedi>=0.16->ipython==8.12.3->pipreqs->pipreqsnb) (0.8.4)\r\n",
+      "Requirement already satisfied: platformdirs>=2.5 in /usr/local/lib/python3.11/dist-packages (from jupyter-core>=4.7->nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (4.3.7)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: jupyter-client>=6.1.5 in /usr/local/lib/python3.11/dist-packages (from nbclient>=0.5.0->nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (8.6.3)\r\n",
+      "Requirement already satisfied: nest-asyncio in /usr/local/lib/python3.11/dist-packages (from nbclient>=0.5.0->nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (1.6.0)\r\n",
+      "Requirement already satisfied: fastjsonschema>=2.15 in /usr/local/lib/python3.11/dist-packages (from nbformat>=5.7->nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (2.21.1)\r\n",
+      "Requirement already satisfied: jsonschema>=2.6 in /usr/local/lib/python3.11/dist-packages (from nbformat>=5.7->nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (4.23.0)\r\n",
+      "Requirement already satisfied: ptyprocess>=0.5 in /usr/local/lib/python3.11/dist-packages (from pexpect>4.3->ipython==8.12.3->pipreqs->pipreqsnb) (0.7.0)\r\n",
+      "Requirement already satisfied: wcwidth in /usr/local/lib/python3.11/dist-packages (from prompt-toolkit!=3.0.37,<3.1.0,>=3.0.30->ipython==8.12.3->pipreqs->pipreqsnb) (0.2.13)\r\n",
+      "Requirement already satisfied: soupsieve>1.2 in /usr/local/lib/python3.11/dist-packages (from beautifulsoup4->nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (2.6)\r\n",
+      "Requirement already satisfied: typing-extensions>=4.0.0 in /usr/local/lib/python3.11/dist-packages (from beautifulsoup4->nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (4.13.1)\r\n",
+      "Requirement already satisfied: charset-normalizer<4,>=2 in /usr/local/lib/python3.11/dist-packages (from requests->yarg==0.1.9->pipreqs->pipreqsnb) (3.4.1)\r\n",
+      "Requirement already satisfied: idna<4,>=2.5 in /usr/local/lib/python3.11/dist-packages (from requests->yarg==0.1.9->pipreqs->pipreqsnb) (3.10)\r\n",
+      "Requirement already satisfied: urllib3<3,>=1.21.1 in /usr/local/lib/python3.11/dist-packages (from requests->yarg==0.1.9->pipreqs->pipreqsnb) (2.3.0)\r\n",
+      "Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.11/dist-packages (from requests->yarg==0.1.9->pipreqs->pipreqsnb) (2025.1.31)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting executing>=1.2.0 (from stack-data->ipython==8.12.3->pipreqs->pipreqsnb)\r\n",
+      "  Downloading executing-2.2.0-py2.py3-none-any.whl.metadata (8.9 kB)\r\n",
+      "Requirement already satisfied: asttokens>=2.1.0 in /usr/local/lib/python3.11/dist-packages (from stack-data->ipython==8.12.3->pipreqs->pipreqsnb) (3.0.0)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting pure-eval (from stack-data->ipython==8.12.3->pipreqs->pipreqsnb)\r\n",
+      "  Downloading pure_eval-0.2.3-py3-none-any.whl.metadata (6.3 kB)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: attrs>=22.2.0 in /usr/local/lib/python3.11/dist-packages (from jsonschema>=2.6->nbformat>=5.7->nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (25.3.0)\r\n",
+      "Requirement already satisfied: jsonschema-specifications>=2023.03.6 in /usr/local/lib/python3.11/dist-packages (from jsonschema>=2.6->nbformat>=5.7->nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (2024.10.1)\r\n",
+      "Requirement already satisfied: referencing>=0.28.4 in /usr/local/lib/python3.11/dist-packages (from jsonschema>=2.6->nbformat>=5.7->nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (0.36.2)\r\n",
+      "Requirement already satisfied: rpds-py>=0.7.1 in /usr/local/lib/python3.11/dist-packages (from jsonschema>=2.6->nbformat>=5.7->nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (0.22.3)\r\n",
+      "Requirement already satisfied: python-dateutil>=2.8.2 in /usr/local/lib/python3.11/dist-packages (from jupyter-client>=6.1.5->nbclient>=0.5.0->nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (2.9.0.post0)\r\n",
+      "Requirement already satisfied: pyzmq>=23.0 in /usr/local/lib/python3.11/dist-packages (from jupyter-client>=6.1.5->nbclient>=0.5.0->nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (24.0.1)\r\n",
+      "Requirement already satisfied: tornado>=6.2 in /usr/local/lib/python3.11/dist-packages (from jupyter-client>=6.1.5->nbclient>=0.5.0->nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (6.4.2)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.11/dist-packages (from python-dateutil>=2.8.2->jupyter-client>=6.1.5->nbclient>=0.5.0->nbconvert<8.0.0,>=7.11.0->pipreqs->pipreqsnb) (1.17.0)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Downloading pipreqs-0.5.0-py3-none-any.whl (33 kB)\r\n",
+      "Downloading ipython-8.12.3-py3-none-any.whl (798 kB)\r\n",
+      "\u001b[?25l   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m0.0/798.3 kB\u001b[0m \u001b[31m?\u001b[0m eta \u001b[36m-:--:--\u001b[0m"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\r",
+      "\u001b[2K   \u001b[91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[91m╸\u001b[0m\u001b[90m━━━━━━━━━\u001b[0m \u001b[32m614.4/798.3 kB\u001b[0m \u001b[31m18.5 MB/s\u001b[0m eta \u001b[36m0:00:01\u001b[0m\r",
+      "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m798.3/798.3 kB\u001b[0m \u001b[31m14.6 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\r\n",
+      "\u001b[?25h"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Downloading yarg-0.1.9-py2.py3-none-any.whl (19 kB)\r\n",
+      "Downloading nbconvert-7.16.6-py3-none-any.whl (258 kB)\r\n",
+      "\u001b[?25l   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m0.0/258.5 kB\u001b[0m \u001b[31m?\u001b[0m eta \u001b[36m-:--:--\u001b[0m"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\r",
+      "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m258.5/258.5 kB\u001b[0m \u001b[31m13.0 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\r\n",
+      "\u001b[?25hDownloading mistune-3.1.3-py3-none-any.whl (53 kB)\r\n",
+      "\u001b[?25l   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m0.0/53.4 kB\u001b[0m \u001b[31m?\u001b[0m eta \u001b[36m-:--:--\u001b[0m\r",
+      "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m53.4/53.4 kB\u001b[0m \u001b[31m3.1 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\r\n",
+      "\u001b[?25h"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Downloading stack_data-0.6.3-py3-none-any.whl (24 kB)\r\n",
+      "Downloading executing-2.2.0-py2.py3-none-any.whl (26 kB)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Downloading pure_eval-0.2.3-py3-none-any.whl (11 kB)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Building wheels for collected packages: pipreqsnb, docopt\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  Building wheel for pipreqsnb (setup.py) ... \u001b[?25l\u001b[?25hdone\r\n",
+      "  Created wheel for pipreqsnb: filename=pipreqsnb-0.2.4-py3-none-any.whl size=4129 sha256=78db4c6b67fcdf2612b178b612720903f68c0a5c41b3d9ecfad7637f351171ed\r\n",
+      "  Stored in directory: /root/.cache/pip/wheels/48/2a/a3/6caa16bfb260624b06acb2a0eeb0bc45c2cd2f0ee2b5ac2d84\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  Building wheel for docopt (setup.py) ... \u001b[?25l\u001b[?25hdone\r\n",
+      "  Created wheel for docopt: filename=docopt-0.6.2-py2.py3-none-any.whl size=13706 sha256=81e8ef78187e2bce1cb1bbd05506c5ad575b91c8285c16325d6be78f8c6d066a\r\n",
+      "  Stored in directory: /root/.cache/pip/wheels/1a/b0/8c/4b75c4116c31f83c8f9f047231251e13cc74481cca4a78a9ce\r\n",
+      "Successfully built pipreqsnb docopt\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Installing collected packages: pure-eval, docopt, mistune, executing, yarg, stack-data, ipython, nbconvert, pipreqs, pipreqsnb\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  Attempting uninstall: mistune\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "    Found existing installation: mistune 0.8.4\r\n",
+      "    Uninstalling mistune-0.8.4:\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "      Successfully uninstalled mistune-0.8.4\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  Attempting uninstall: ipython\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "    Found existing installation: ipython 7.34.0\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "    Uninstalling ipython-7.34.0:\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "      Successfully uninstalled ipython-7.34.0\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  Attempting uninstall: nbconvert\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "    Found existing installation: nbconvert 6.4.5\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "    Uninstalling nbconvert-6.4.5:\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "      Successfully uninstalled nbconvert-6.4.5\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[31mERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.\r\n",
+      "google-colab 1.0.0 requires ipython==7.34.0, but you have ipython 8.12.3 which is incompatible.\r\n",
+      "google-colab 1.0.0 requires notebook==6.5.5, but you have notebook 6.5.4 which is incompatible.\r\n",
+      "google-colab 1.0.0 requires pandas==2.2.2, but you have pandas 2.2.3 which is incompatible.\r\n",
+      "bigframes 1.36.0 requires rich<14,>=12.4.4, but you have rich 14.0.0 which is incompatible.\u001b[0m\u001b[31m\r\n",
+      "\u001b[0mSuccessfully installed docopt-0.6.2 executing-2.2.0 ipython-8.12.3 mistune-3.1.3 nbconvert-7.16.6 pipreqs-0.5.0 pipreqsnb-0.2.4 pure-eval-0.2.3 stack-data-0.6.3 yarg-0.1.9\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "!pip3 install pipreqsnb\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "0bc4d5c1",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-05-04T19:49:11.865103Z",
+     "iopub.status.busy": "2025-05-04T19:49:11.864752Z",
+     "iopub.status.idle": "2025-05-04T19:49:17.769247Z",
+     "shell.execute_reply": "2025-05-04T19:49:17.768041Z"
+    },
+    "papermill": {
+     "duration": 5.911282,
+     "end_time": "2025-05-04T19:49:17.771121",
+     "exception": false,
+     "start_time": "2025-05-04T19:49:11.859839",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: pip in /usr/local/lib/python3.11/dist-packages (24.1.2)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting pip\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  Downloading pip-25.1.1-py3-none-any.whl.metadata (3.6 kB)\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Downloading pip-25.1.1-py3-none-any.whl (1.8 MB)\r\n",
+      "\u001b[?25l   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m0.0/1.8 MB\u001b[0m \u001b[31m?\u001b[0m eta \u001b[36m-:--:--\u001b[0m\r",
+      "\u001b[2K   \u001b[91m━━━━━━\u001b[0m\u001b[91m╸\u001b[0m\u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m0.3/1.8 MB\u001b[0m \u001b[31m9.6 MB/s\u001b[0m eta \u001b[36m0:00:01\u001b[0m"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\r",
+      "\u001b[2K   \u001b[91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[91m╸\u001b[0m \u001b[32m1.8/1.8 MB\u001b[0m \u001b[31m29.2 MB/s\u001b[0m eta \u001b[36m0:00:01\u001b[0m\r",
+      "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m1.8/1.8 MB\u001b[0m \u001b[31m21.2 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\r\n",
+      "\u001b[?25h"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Installing collected packages: pip\r\n",
+      "  Attempting uninstall: pip\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "    Found existing installation: pip 24.1.2\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "    Uninstalling pip-24.1.2:\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "      Successfully uninstalled pip-24.1.2\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Successfully installed pip-25.1.1\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "!pip install --upgrade pip"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "4cf56140",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-05-04T19:49:17.781973Z",
+     "iopub.status.busy": "2025-05-04T19:49:17.781610Z",
+     "iopub.status.idle": "2025-05-04T19:49:18.018960Z",
+     "shell.execute_reply": "2025-05-04T19:49:18.017886Z"
+    },
+    "papermill": {
+     "duration": 0.244897,
+     "end_time": "2025-05-04T19:49:18.020692",
+     "exception": false,
+     "start_time": "2025-05-04T19:49:17.775795",
+     "status": "completed"
+    },
+    "tags": []
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Traceback (most recent call last):\r\n",
+      "  File \"/usr/local/bin/pipreqsnb\", line 8, in <module>\r\n",
+      "    sys.exit(main())\r\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "             ^^^^^^\r\n",
+      "  File \"/usr/local/lib/python3.11/dist-packages/pipreqsnb/pipreqsnb.py\", line 98, in main\r\n",
+      "    is_file, is_nb = path_is_file(input_path)\r\n",
+      "                     ^^^^^^^^^^^^^^^^^^^^^^^^\r\n",
+      "  File \"/usr/local/lib/python3.11/dist-packages/pipreqsnb/pipreqsnb.py\", line 80, in path_is_file\r\n",
+      "    raise Exception('{} if an invalid path'.format(path))\r\n",
+      "Exception: Fine-Tune-LLM.ipynb if an invalid path\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "!pipreqsnb --savepath ./requirements.txt Fine-Tune-LLM.ipynb\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "kaggle": {
+   "accelerator": "none",
+   "dataSources": [
+    {
+     "datasetId": 3202774,
+     "sourceId": 7981839,
+     "sourceType": "datasetVersion"
+    }
+   ],
+   "dockerImageVersionId": 31012,
+   "isGpuEnabled": false,
+   "isInternetEnabled": true,
+   "language": "python",
+   "sourceType": "notebook"
+  },
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.11"
+  },
+  "papermill": {
+   "default_parameters": {},
+   "duration": 37.399155,
+   "end_time": "2025-05-04T19:49:18.444422",
+   "environment_variables": {},
+   "exception": null,
+   "input_path": "__notebook__.ipynb",
+   "output_path": "__notebook__.ipynb",
+   "parameters": {},
+   "start_time": "2025-05-04T19:48:41.045267",
+   "version": "2.6.0"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
